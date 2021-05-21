@@ -1,18 +1,13 @@
 package com.aluguelVeiculos.model;
 
 import java.time.LocalDate;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "tb_aluguel")
@@ -31,22 +26,15 @@ public class Aluguel {
 	@NotNull
 	private Long qtDias;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(
-			  name = "", 
-			  joinColumns = @JoinColumn(name = "aluguel_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "usuario_id"))
-	@JsonIgnoreProperties("usuario")
+	@NotNull
+	private Float valorDiaria;
+	
+	@ManyToOne
 	private Usuarios usuario;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(
-			  name = "", 
-			  joinColumns = @JoinColumn(name = "aluguel_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "veiculo_id"))
-	@JsonIgnoreProperties("veiculos")
+	@ManyToOne
 	private Veiculos veiculos;
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -79,6 +67,14 @@ public class Aluguel {
 		this.qtDias = qtDias;
 	}
 
+	public Float getValorDiaria() {
+		return valorDiaria;
+	}
+
+	public void setValorDiaria(Float valorDiaria) {
+		this.valorDiaria = valorDiaria;
+	}
+
 	public Usuarios getUsuario() {
 		return usuario;
 	}
@@ -94,7 +90,5 @@ public class Aluguel {
 	public void setVeiculos(Veiculos veiculos) {
 		this.veiculos = veiculos;
 	}
-	
-	
 
 }

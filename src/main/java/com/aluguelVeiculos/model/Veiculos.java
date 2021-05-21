@@ -1,20 +1,22 @@
 package com.aluguelVeiculos.model;
 
-import javax.persistence.Column;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "tb_veiculos", uniqueConstraints = @UniqueConstraint(columnNames = { "placa","modelo" }))
+@Table(name = "tb_veiculos")
 public class Veiculos {
 
 	@Id
@@ -25,24 +27,19 @@ public class Veiculos {
 	private String marca;
 	
 	@NotNull
-	@Column(unique=true)
 	private String modelo;
 	
 	private String cor;
 	
 	@NotNull
-	@Column(unique=true)
 	private String placa;
-	
-	@NotNull
-	private Float valorDiaria;
 	
 	@NotNull
 	protected Boolean disponivel;
 	
-	@ManyToOne
-	@JsonIgnoreProperties("aluguel")
-	private Aluguel aluguel;
+	@OneToMany(mappedBy = "veiculos" , cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("Veiculos")
+	private List<Aluguel> aluguel = new ArrayList<>();
 	
 	@OneToOne
 	@JsonIgnoreProperties("Veiculos")
@@ -86,14 +83,6 @@ public class Veiculos {
 
 	public void setPlaca(String placa) {
 		this.placa = placa;
-	}
-
-	public Float getValorDiaria() {
-		return valorDiaria;
-	}
-
-	public void setValorDiaria(Float valorDiaria) {
-		this.valorDiaria = valorDiaria;
 	}
 
 	public Usuarios getUsuario() {

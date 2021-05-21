@@ -1,21 +1,22 @@
 package com.aluguelVeiculos.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "tb_usuario", uniqueConstraints = @UniqueConstraint(columnNames = { "cpf","email" }))
+@Table(name = "tb_usuario")
 public class Usuarios {
 
 	@Id
@@ -27,18 +28,16 @@ public class Usuarios {
 	private String nomeCompleto;
 	
 	@NotNull
-	@Column(unique=true)
 	@Size(max=50, message = "O email pode ter até 50 caracteres, seguido por @ e .")
 	private String email;
 	
 	@NotNull
-	@Column(unique=true)
 	@Size(min=11, max=14, message = "Digite os 11 números do seu CPF")
 	private String cpf;
 	
-	@ManyToOne
-	@JsonIgnoreProperties("aluguel")
-	private Aluguel aluguel;
+	@OneToMany(mappedBy = "usuario" , cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("Usuarios")
+	private List<Aluguel> aluguel = new ArrayList<>();
 
 	@OneToOne
 	@JsonIgnoreProperties("veiculo")

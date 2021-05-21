@@ -13,6 +13,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.http.ResponseEntity;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -34,8 +36,7 @@ public class Veiculos {
 	@NotNull
 	private String placa;
 	
-	@NotNull
-	protected Boolean disponivel;
+	protected String disponivel;
 	
 	@OneToMany(mappedBy = "veiculos" , cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("Veiculos")
@@ -93,13 +94,24 @@ public class Veiculos {
 		this.usuario = usuario;
 	}
 
-	public Boolean getDisponivel() {
+	public String getDisponivel() {
 		return disponivel;
 	}
 
-	public void setDisponivel(Boolean disponivel) {
+	public ResponseEntity<?> setDisponivel(String disponivel) {
 		this.disponivel = disponivel;
+		return null;
 	}
+
+	public List<Aluguel> getAluguel() {
+		return aluguel;
+	}
+
+	public void setAluguel(List<Aluguel> aluguel) {
+		this.aluguel = aluguel;
+	}
+
+	
 	
 
 }

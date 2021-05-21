@@ -31,10 +31,13 @@ public class VeiculosController {
 		return ResponseEntity.ok(repositoryVeiculo.findAll());
 	}
 	
-	@PostMapping("/disponivel")
-	public ResponseEntity<?> trazerVeiculoDiponivel(@PathVariable Long idVeiculo) {
-		Optional<Veiculos> dto = repositoryVeiculo.findAllUsuarioByVeiculoPlaca(idVeiculo);
-		return !dto.isEmpty() ? ResponseEntity.ok(dto) : ResponseEntity.notFound().build();
+	@GetMapping("disponivel/{id}")
+	public ResponseEntity<?> trazerVeiculoDiponivel(@PathVariable Long id) {
+		Optional<Veiculos> dto = repositoryVeiculo.findAllUsuarioByVeiculoPlaca(id);
+		if (!dto.isEmpty())
+			return dto.get().setDisponivel("Não esta disponível!");
+		else
+			return dto.get().setDisponivel("Esta disponível!");
 	}
 
 	@GetMapping("/{id}")

@@ -22,6 +22,6 @@ public interface VeiculosRepository extends JpaRepository<Veiculos, Long> {
 			+ "INNER JOIN tb_usuario "
 			+ "ON tb_veiculos.id = tb_veiculos.usuario_id "
 			+ "WHERE tb_veiculos.placa LIKE CONCAT('%',:veiculo,'%')", nativeQuery = true)
-	public Optional<Veiculos> findAllUsuarioByVeiculoPlaca(@Param("veiculo") Long idVeiculo);
+	public Optional<Veiculos> findAllUsuarioByVeiculoPlaca(@Param("veiculo") Long id);
 
 }
